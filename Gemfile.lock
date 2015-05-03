@@ -7,10 +7,12 @@ GEM
   remote: http://rubygems.org/
   specs:
     minitest (5.6.1)
+    rubygems-tasks (0.2.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   minitest
+  rubygems-tasks
   salama-object-file!
