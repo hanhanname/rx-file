@@ -1,11 +1,11 @@
-require_relative "util"
-require_relative "node"
-require_relative "members"
-require_relative "volotile"
-require_relative "writer"
-require_relative "array"
-require_relative "hash"
-require_relative "occurence"
+require_relative "sof/util"
+require_relative "sof/node"
+require_relative "sof/members"
+require_relative "sof/volotile"
+require_relative "sof/writer"
+require_relative "sof/array"
+require_relative "sof/hash"
+require_relative "sof/occurence"
 
 Symbol.class_eval do
   def to_sof()
