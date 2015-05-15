@@ -24,7 +24,7 @@ class ObjectSof < MiniTest::Test
   end
 
   def test_basic
-    @out = Sof::Writer.write(BasicValue.new("name"))
+    @out = BasicValue.new("name")
     check "'name'"
   end
 
