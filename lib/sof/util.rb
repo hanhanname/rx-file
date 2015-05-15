@@ -7,6 +7,9 @@ module Sof
       return true if o.class == Fixnum
       return true if o.class == Symbol
       return true if o.class == String
+      if o.respond_to? :is_value?
+        return true if o.is_value?
+      end
       return false
     end
 
