@@ -14,3 +14,11 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'test'))
 
 require 'salama-object-file'
+
+module Checker
+  def check should
+    same = (should == @out)
+    puts "Shouldda\n#{@out}" unless same
+    assert_equal should , @out
+  end
+end
