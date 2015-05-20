@@ -20,7 +20,7 @@ module Sof
         long_out(io , level)
       end
     end
-    
+
     private
     def short_out(io,level)
       io.write("[")
@@ -39,13 +39,18 @@ module Sof
       end
     end
   end
-end
-Array.class_eval do
-  def to_sof_node(writer , level , ref )
+
+  def self.array_to_sof_node(array , writer , level , ref )
     node = Sof::ArrayNode.new(ref)
-    each do |object|
+    array.each do |object|
       node.add writer.to_sof_node( object , level + 1)
     end
     node
+  end
+
+end
+Array.class_eval do
+  def to_sof_node(writer , level , ref )
+    Sof.array_to_sof_node(self , writer , level , ref )
   end
 end

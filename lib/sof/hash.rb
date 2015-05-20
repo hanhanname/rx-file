@@ -44,17 +44,20 @@ module Sof
       end
     end
   end
-end
 
-Hash.class_eval do
-  def to_sof_node(writer , level , ref)
+  def self.hash_to_sof_node(hash,writer , level , ref)
     node = Sof::HashNode.new(ref)
-    each do |key , object|
+    hash.each do |key , object|
       k = writer.to_sof_node( key ,level + 1)
-      v = writer.to_sof_node( object ,level +1)
+      v = writer.to_sof_node( object ,level + 1)
       node.add(k , v)
     end
     node
   end
 end
 
+Hash.class_eval do
+  def to_sof_node(writer , level , ref)
+    Sof.hash_to_sof_node( self , writer , level , ref)
+  end
+end
