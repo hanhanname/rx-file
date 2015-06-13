@@ -3,7 +3,7 @@ module Sof
 
   # ObjectNode means node with structure
   # ie arrays and hashes get transformed into these too
-  
+
   class ObjectNode < Node
     def initialize data , ref
       super(ref)
@@ -18,12 +18,11 @@ module Sof
       super
       io.write(@data)
       indent = " " * (level + 1)
-      @children.each_with_index do |child , i|
-        k , v = child
+      @children.each do |k,v|
         io.write "\n#{indent}"
-        k.out(io , level + 2)
+        k.out(io , level + 1)
         io.write " "
-        v.out(io , level + 2)
+        v.out(io , level + 1)
       end
     end
   end
