@@ -1,5 +1,7 @@
 require_relative "sof/util"
 require_relative "sof/node"
+require_relative "sof/simple_node"
+require_relative "sof/object_node"
 require_relative "sof/members"
 require_relative "sof/volotile"
 require_relative "sof/writer"
