@@ -1,12 +1,8 @@
 module Sof
   module Util
     def is_value? o
-      return true if o == true
-      return true if o == false
-      return true if o == nil
-      return true if o.class == Fixnum
-      return true if o.class == Symbol
-      return true if o.class == String
+      return true if [true , false ,  nil].include?(o)
+      return true if [Fixnum, Symbol, String].include?(o.class)
       if o.respond_to? :is_value?
         return true if o.is_value?
       end
