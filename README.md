@@ -8,10 +8,11 @@ Hence the need for a code/object file format
 I started with yaml, which is nice in that it has a solid implementation, reads and writes,
 handles arbitrary objects, handles graphs and is a sort of readable text format.
 
-But the "sort of" started to get to me, because 
+But the "sort of" started to get to me, because
 
-- 1) it's way to verbose (long files, object groups over many pages) and 
+- 1) it's way to verbose (long files, object groups over many pages) and
 - 2) does not allow for (easy) ordering.
+- 3) has no concept of dumping only parts of an object
 
 To fix this i started on Sof, with an eye to expand it.
 
@@ -21,11 +22,18 @@ The main starting goal was quite like yaml, but with
 - also short versions of arrays and hashes
 - Shorter class names (no ruby/object or even ruby/struct stuff)
 - references at the most shallow level
-- an easy way to order attributes and specify attributes that should not be serialized
+- a way specify attributes that should not be serialized
+
+### Usage
+
+The module's main useful api is
+
+    Sof::Writer.write(object_to_derialize)
+
 
 ### Salama Object File
 
-Ok, so we all heard about object files, it's the things compilers create so we don't have to have 
+Ok, so we all heard about object files, it's the things compilers create so we don't have to have
 huge compiles and can link them later.
 
 Much fewer know what they include, and that is not because they are not very useful,
@@ -33,13 +41,13 @@ but rather very complicated.
 
 An object machine must off course have it's own object files, because:
 
-- otherwise we'd have to express the object machine in c (nischt gut)
+- otherwise we'd have to express the object machine in c formats (nischt gut)
 - we would be forced to read the source every time (slow)
-- we would have no language independant format
+- we would have no language independent format
 
-And i was going to get there, juust not now. I mean i think it's a great idea to have many languages 
-compile and run  on the same object machine. 
-Not neccessarily my idea, but i haven't seen it pulled off. Not that i will.
+And i was going to get there, just not now. I mean i think it's a great idea to have many languages
+compile and run  on the same object machine.
+Not necessarily my idea, but i haven't seen it pulled off. Not that i will.
 
 I just want to be able to read my compiled code!!
 
