@@ -18,9 +18,14 @@ module Sof
       end
       occurence = @members.objects[object.object_id]
       raise "no object #{object}" unless occurence
-      if(level > occurence.level )
+      #puts "#{level} ? #{occurence.level} : ref #{occurence.referenced}"
+      if( occurence.referenced and (occurence.level <= level) )
         #puts "ref #{occurence.referenced} level #{level} at #{occurence.level}"
-        return SimpleNode.new("*#{occurence.referenced}")
+        if( occurence.written.nil? )
+          occurence.written = true
+        else
+          return SimpleNode.new("*#{occurence.referenced}")
+        end
       end
       ref = occurence.referenced
       if(object.respond_to? :to_sof_node) #mainly meant for arrays and hashes
@@ -36,7 +41,7 @@ module Sof
       end
       head = object.class.name + "("
       atts = {}
-      attributes_for(object).each() do |a| 
+      attributes_for(object).each() do |a|
         val = get_value(object , a)
         next if val.nil?
         atts[a] =  to_sof_node(val , level + 1)
@@ -55,6 +60,6 @@ module Sof
       writer = Writer.new(Members.new(object) )
       writer.write
     end
-    
+
   end
 end

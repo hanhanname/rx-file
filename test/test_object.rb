@@ -57,6 +57,6 @@ class ObjectSof < MiniTest::Test
     object.extra = ObjectWithAttributes
     ar = [object , ObjectWithAttributes]
     @out = ar
-    check "-ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => *1)\n-&1 ObjectWithAttributes"
+    check "-ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => &1 ObjectWithAttributes)\n-*1"
   end
 end
