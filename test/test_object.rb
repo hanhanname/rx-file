@@ -3,9 +3,10 @@ class ObjectWithAttributes
     @name = "some name"
     @number = 1234
   end
-  attr_accessor :extra
+  attr_accessor :extra , :volotile
 end
 OBJECT_STRING = "ObjectWithAttributes(:name => 'some name', :number => 1234)"
+Sof::Volotile.add(ObjectWithAttributes , [:volotile])
 
 class ObjectSof < MiniTest::Test
   include Checker
@@ -47,6 +48,11 @@ class ObjectSof < MiniTest::Test
     object.extra = Object.new
     @out = object
     check "ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => Object())"
+  end
+  def test_volotile
+    @out = ObjectWithAttributes.new
+    @out.volotile = 42
+    check "ObjectWithAttributes(:name => 'some name', :number => 1234)"
   end
   def test_class
     @out = ObjectWithAttributes
