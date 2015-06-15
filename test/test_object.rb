@@ -1,12 +1,4 @@
-class ObjectWithAttributes
-  def initialize
-    @name = "some name"
-    @number = 1234
-  end
-  attr_accessor :extra , :volotile
-end
-OBJECT_STRING = "ObjectWithAttributes(:name => 'some name', :number => 1234)"
-Sof::Volotile.add(ObjectWithAttributes , [:volotile])
+require_relative "helper"
 
 class ObjectSof < MiniTest::Test
   include Checker
@@ -63,6 +55,6 @@ class ObjectSof < MiniTest::Test
     object.extra = ObjectWithAttributes
     ar = [object , ObjectWithAttributes]
     @out = ar
-    check "-ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => &1 ObjectWithAttributes)\n-*1"
+    check "-ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => *1)\n-&1 ObjectWithAttributes"
   end
 end

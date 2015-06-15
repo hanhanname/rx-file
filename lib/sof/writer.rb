@@ -44,7 +44,8 @@ module Sof
       occurence = @members.objects[object.object_id]
       raise "no object #{object}" unless occurence
       #puts "#{level} ? #{occurence.level} : ref #{occurence.referenced}"
-      if( occurence.referenced and (occurence.level <= level) )
+      if( occurence.referenced )
+        return SimpleNode.new("*#{occurence.referenced}") unless (level == occurence.level )
         #puts "ref #{occurence.referenced} level #{level} at #{occurence.level}"
         if( occurence.written.nil? )
           occurence.written = true

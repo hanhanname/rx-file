@@ -23,3 +23,13 @@ module Checker
     assert_equal should , out
   end
 end
+
+class ObjectWithAttributes
+  def initialize
+    @name = "some name"
+    @number = 1234
+  end
+  attr_accessor :extra , :volotile
+end
+OBJECT_STRING = "ObjectWithAttributes(:name => 'some name', :number => 1234)"
+Sof::Volotile.add(ObjectWithAttributes , [:volotile])
