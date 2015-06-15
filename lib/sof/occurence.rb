@@ -1,5 +1,9 @@
 module Sof
 
+  # simple struct like class to wrap an object and hold additionally
+  #  - the shallowest level at which it was seen
+  #  - A possible reference
+  #  - the fact if it has been written (for referenced objects)
   class Occurence
     def initialize object , level
       @object = object

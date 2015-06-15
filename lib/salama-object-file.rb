@@ -1,3 +1,7 @@
+# Most of the external functionality is in the writer
+
+# if you want some attributes not written also check volotile
+
 require_relative "sof/util"
 require_relative "sof/node"
 require_relative "sof/simple_node"
