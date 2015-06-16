@@ -47,23 +47,24 @@ module Sof
       o = Occurence.new( object , level )
       @objects[object.object_id] = o
 
-      # and recursively add attributes
-      attributes = attributes_for(object)
-      attributes.each do |a|
-        val = get_value( object , a)
-        add(val , level + 1)
-      end
-      # and array values
-      if( object.is_a? Array )
+      case object.class.name
+      when "Array" , "Parfait::List"
+        # and array values
         object.each do |a|
           add(a , level + 1)
         end
-      end
-      # and hash keys/values
-      if( object.is_a? Hash )
+      when "Hash" , "Parfait::Dictionary"
+        # and hash keys/values
         object.each do |a,b|
           add(a , level + 1)
           add(b , level + 1)
+        end
+      else
+        # and recursively add attributes
+        attributes = attributes_for(object)
+        attributes.each do |a|
+          val = get_value( object , a)
+          add(val , level + 1)
         end
       end
     end
