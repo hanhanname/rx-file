@@ -12,6 +12,7 @@ module Sof
       @written = nil
     end
     def set_reference r
+      raise "was set #{@referenced}" if @referenced
       @referenced = r
     end
     attr_reader   :object , :referenced

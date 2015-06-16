@@ -13,6 +13,11 @@ require_relative "sof/array_node"
 require_relative "sof/hash_node"
 require_relative "sof/occurence"
 
+Class.class_eval do
+  def to_sof
+    self.name
+  end
+end
 Symbol.class_eval do
   def to_sof()
     ":#{to_s}"

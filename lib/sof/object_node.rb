@@ -22,8 +22,8 @@ module Sof
 
     # write out at the given level
     # level determines the indentation (level * space)
-    # write out the data and then the children (always key value on one line) 
-    def out io , level = 0
+    # write out the data and then the children (always key value on one line)
+    def out io , level
       super
       io.write(@data)
       indent = " " * (level + 1)

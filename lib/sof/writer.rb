@@ -45,12 +45,12 @@ module Sof
       raise "no object #{object}" unless occurence
       #puts "#{level} ? #{occurence.level} : ref #{occurence.referenced}"
       if( occurence.referenced )
-        return SimpleNode.new("*#{occurence.referenced}") unless (level == occurence.level )
-        #puts "ref #{occurence.referenced} level #{level} at #{occurence.level}"
+        puts "ref #{occurence.referenced} level #{level} at #{occurence.level}"
+        return SimpleNode.new("->#{occurence.referenced}") unless (level == occurence.level )
         if( occurence.written.nil? )
           occurence.written = true
         else
-          return SimpleNode.new("*#{occurence.referenced}")
+          return SimpleNode.new("->#{occurence.referenced}")
         end
       end
       ref = occurence.referenced
@@ -66,9 +66,6 @@ module Sof
     #   small means only simple attributes and only 30 chars of them
     # object nodes are basically arrays (see there)
     def object_sof_node( object , level , ref)
-      if( object.is_a? Class )
-        return SimpleNode.new( object.name , ref )
-      end
       head = object.class.name + "("
       atts = {}
       attributes_for(object).each() do |a|
@@ -77,7 +74,7 @@ module Sof
         atts[a] =  to_sof_node(val , level + 1)
       end
       immediate , extended = atts.partition {|a,val| val.is_a?(SimpleNode) }
-      head += immediate.collect {|a,val| "#{a.to_sof()} => #{val.as_string(level)}"}.join(", ") + ")"
+      head += immediate.collect {|a,val| "#{a.to_sof()} => #{val.as_string(level + 1)}"}.join(", ") + ")"
       return SimpleNode.new(head) if( ref.nil? and extended.empty? and head.length < 30 )
       node = ObjectNode.new(head , ref)
       extended.each do |a , val|

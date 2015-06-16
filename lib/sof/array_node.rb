@@ -17,7 +17,7 @@ module Sof
     node
   end
 
-  # A ArrayNode is a Node for a Array. See Node for when and how nodes are used in Sof.
+  # A ArrayNode is a Node for an Array. See Node for when and how nodes are used in Sof.
   # A ArrayNode has a list of children that hold the value node representations for
   # the arrays values.
   #
