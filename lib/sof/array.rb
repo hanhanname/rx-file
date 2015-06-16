@@ -34,14 +34,14 @@ module Sof
 
     # The output of a Array can be a long or a short format
     # The short is used for 7 or less SimpleNodes
-    def out io , level = 0
+    def out io , level
       super
       short = true
       children.each do |c|
         short = false unless c.is_a?(SimpleNode)
       end
       if(short and children.length < 7 )
-        short_out(io,level)
+        short_out(io , level)
       else
         long_out(io , level)
       end
@@ -53,7 +53,7 @@ module Sof
     def short_out(io,level)
       io.write("[")
       @children.each_with_index do |child , i|
-        child.out(io , level + 1)
+        child.out(io , level + 1 )
         io.write ", " unless (i+1) == children.length
       end
       io.write("]")
@@ -65,7 +65,7 @@ module Sof
       indent = " " * level
       @children.each_with_index do |child , i|
         io.write "\n#{indent}" unless i == 0
-        io.write "-"
+        io.write "- "
         child.out(io , level + 1)
       end
     end
