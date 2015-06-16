@@ -9,8 +9,8 @@ require_relative "sof/object_node"
 require_relative "sof/members"
 require_relative "sof/volotile"
 require_relative "sof/writer"
-require_relative "sof/array"
-require_relative "sof/hash"
+require_relative "sof/array_node"
+require_relative "sof/hash_node"
 require_relative "sof/occurence"
 
 Symbol.class_eval do
