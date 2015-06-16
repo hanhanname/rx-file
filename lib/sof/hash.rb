@@ -36,7 +36,7 @@ module Sof
 
     # The output of a Hash can be a long or a short format
     # The short is used for 7 or less SimpleNodes
-    def out io , level = 0
+    def out io , level
       super
       short = true
       children.each do |k,v|
@@ -73,7 +73,7 @@ module Sof
       children.each_with_index do |child , i|
         key , val = child
         io.write "\n#{indent}" unless i == 0
-        io.write "-"
+        io.write "- "
         key.out(io , level + 1)
         io.write " => "
         val.out(io , level + 1)
