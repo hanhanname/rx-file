@@ -11,7 +11,7 @@ class ObjectSof < MiniTest::Test
     object = ObjectWithAttributes.new
     object.extra = [:sym , 123]
     @out = object
-    check "#{OBJECT_STRING}\n :extra [:sym, 123]"
+    check "ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => [:sym, 123])"
   end
   def test_array_object
     @out = [true, 1234 , ObjectWithAttributes.new]

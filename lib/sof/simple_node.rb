@@ -13,12 +13,17 @@ module Sof
       super(ref)
       @data = data
     end
-    attr_reader :data
 
+    # A SimpleNode is always simple (aha).
+    # accordingly there is no long_out
+    def is_simple?
+      true
+    end
+
+    private
     # just write the data given in construcor. simple. hence the name.
-    def out io , level
-      super(io,level)
-      io.write(data)
+    def short_out io , level
+      io.write(@data)
     end
   end
 

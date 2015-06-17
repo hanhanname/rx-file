@@ -28,39 +28,32 @@ module Sof
       super(ref)
       @children = []
     end
-    attr_reader  :children
 
     def add key , val
       @children << [key,val]
     end
 
-    # The output of a Hash can be a long or a short format
-    # The short is used for 7 or less SimpleNodes
-    def out io , level
-      super
-      short = true
-      children.each do |k,v|
-        short = false unless k.is_a?(SimpleNode)
-        short = false unless v.is_a?(SimpleNode)
+    def is_simple?
+      return false if(@children.length > 7 )
+      @children.each do |k,v|
+        return false unless k.is_simple?
+        return false unless v.is_simple?
       end
-      if(short and children.length < 7 )
-        short_out(io,level)
-      else
-        long_out(io , level)
-      end
+      true
     end
 
     private
     # This defines the short output which is basically what you would write in ruby
     # ie { key1 => value1 , ... }
+    # The short is used for 7 or less SimpleNodes
     def short_out(io,level)
       io.write("{")
-      children.each_with_index do |child , i|
+      @children.each_with_index do |child , i|
         key , val = child
         key.out(io , level + 1)
         io.write " => "
         val.out(io , level + 1)
-        io.write ", " unless (i+1) == children.length
+        io.write ", " unless (i+1) == @children.length
       end
       io.write("}")
     end
@@ -70,7 +63,7 @@ module Sof
     # and each line has the association key => value, same as used for the {} syntax
     def long_out io , level
       indent = " " * level
-      children.each_with_index do |child , i|
+      @children.each_with_index do |child , i|
         key , val = child
         io.write "\n#{indent}" unless i == 0
         io.write "- "

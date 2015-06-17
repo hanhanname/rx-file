@@ -26,35 +26,29 @@ module Sof
       super(ref)
       @children = []
     end
-    attr_reader  :children
 
     def add c
       @children << c
     end
 
-    # The output of a Array can be a long or a short format
-    # The short is used for 7 or less SimpleNodes
-    def out io , level
-      super
+    def is_simple?
+      return false if(@children.length > 7 )
       short = true
-      children.each do |c|
-        short = false unless c.is_a?(SimpleNode)
+      @children.each do |c|
+        short = false unless c.is_simple?
       end
-      if(short and children.length < 7 )
-        short_out(io , level)
-      else
-        long_out(io , level)
-      end
+      short
     end
 
     private
     # This defines the short output which is basically what you would write in ruby
     # ie [ value1 , value2 , ...]
+    # The short is used for 7 or less SimpleNodes
     def short_out(io,level)
       io.write("[")
       @children.each_with_index do |child , i|
         child.out(io , level + 1 )
-        io.write ", " unless (i+1) == children.length
+        io.write ", " unless (i+1) == @children.length
       end
       io.write("]")
     end

@@ -14,30 +14,29 @@ class TestRefs < MiniTest::Test
 
   def test_one_empty
     @out = @array << @hash
-    check "- {}"
+    check "[{}]"
   end
   def test_two_empty
     @out = @array << @hash
     @out << @hash
-    check "- &1 {}
-- ->1"
+    check "[&1 {}, ->1]"
   end
   def test_bigger
     @out = [ { :one => @array , :two => [{ :three => @array}] } ]
-    check "- - :one => &1 []\n - :two => - {:three => ->1}"
+    check "[{:one => &1 [], :two => [{:three => ->1}]}]"
   end
   def test_object_ref
     object = ObjectWithAttributes.new
     object.extra = [object]
     @out = [ {:one => object} , object ]
-    check "- {:one => ->1}\n- &1 #{OBJECT_STRING}\n  :extra [->1]"
+    check "- {:one => ->1}\n- &1 ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => [->1])"
   end
   def test_object_ref2
     object = ObjectWithAttributes.new
     object2 = ObjectWithAttributes.new
     object.extra = [object2]
     @out = [ {:one => object} , object2 ]
-    check "- - :one => #{OBJECT_STRING}\n   :extra [->1]\n- &1 #{OBJECT_STRING}"
+    check "- - :one => ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => [->1])\n- &1 ObjectWithAttributes(:name => 'some name', :number => 1234)"
   end
 
 end

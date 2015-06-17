@@ -29,14 +29,15 @@ module Sof
 
       # see if we we came accross this before
       if( occurence = @objects[object.object_id] )
-        #puts "reset level #{level} at #{occurence.level}"
+        puts "reset level #{level} at #{occurence.level}" if occurence.referenced == 19
         if occurence.level > level
           #always store the most shallow level
           occurence.level = level
         end
         # and only one Occurence for each object, create a reference for the second occurence
         unless occurence.referenced
-          #puts "referencing #{@counter} , at level #{level}/#{occurence.level} "
+          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 14
+          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 19
           occurence.set_reference(@counter)
           @counter = @counter + 1
         end

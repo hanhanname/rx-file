@@ -66,19 +66,11 @@ module Sof
     #   small means only simple attributes and only 30 chars of them
     # object nodes are basically arrays (see there)
     def object_sof_node( object , level , ref)
-      head = object.class.name + "("
-      atts = {}
+      node = ObjectNode.new(object.class.name , ref)
       attributes_for(object).each() do |a|
         val = get_value(object , a)
         next if val.nil?
-        atts[a] =  to_sof_node(val , level + 1)
-      end
-      immediate , extended = atts.partition {|a,val| val.is_a?(SimpleNode) }
-      head += immediate.collect {|a,val| "#{a.to_sof()} => #{val.as_string(level + 1)}"}.join(", ") + ")"
-      return SimpleNode.new(head) if( ref.nil? and extended.empty? and head.length < 30 )
-      node = ObjectNode.new(head , ref)
-      extended.each do |a , val|
-        node.add( to_sof_node(a,level + 1) , val )
+        node.add( a , to_sof_node( val , level + 1) )
       end
       node
     end
