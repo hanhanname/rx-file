@@ -1,24 +1,4 @@
-Hash.class_eval do
-  # If a class defines to_sof_node it tells the write that it will generate Nodes itself
-  # this delegates to hash_to_sof_node
-  def to_sof_node(writer , level , ref)
-    Sof.hash_to_sof_node( self , writer , level , ref)
-  end
-end
-
 module Sof
-  # Creates a HashNode (see there) for the Hash.
-  # This mainly involves creating nodes for key value pairs
-  def self.hash_to_sof_node(hash,writer , level , ref)
-    node = Sof::HashNode.new(ref)
-    hash.each do |key , object|
-      k = writer.to_sof_node( key ,level + 1)
-      v = writer.to_sof_node( object ,level + 1)
-      node.add(k , v)
-    end
-    node
-  end
-
   # A HashNode is a Node for a Hash. See Node for when and how nodes are used in Sof.
   # A HashNode has a list of children that hold the key/value node representations for
   # the hashes keys and values.

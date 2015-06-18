@@ -35,7 +35,7 @@ module Sof
     # Level is mainly needed for the indenting
     # from the object we get the Occurence and decide wether a reference node is needed
     # simple objects (with more inner structure) become SimpleNodes
-    # Any structured object bocomes a ObjectNode
+    # Any structured object becomes a ObjectNode
     # Hash and Array create their own nodes via  to_sof_node functions on the classes
     def to_sof_node(object , level)
       if is_value?(object)
@@ -53,19 +53,27 @@ module Sof
           return SimpleNode.new("->#{occurence.referenced}")
         end
       end
+
       ref = occurence.referenced
-      if(object.respond_to? :to_sof_node) #mainly meant for arrays and hashes
-        object.to_sof_node(self , level , ref )
+      case object.class.name
+      when "Array" , "Parfait::List"
+        # If a class defines to_sof_node it tells the write that it will generate Nodes itself
+        # this delegates to array_to_sof_node
+        array_to_sof_node(object , level , ref )
+      when "Hash" , "Parfait::Dictionary"
+        # and hash keys/values
+        hash_to_sof_node( object , level , ref)
       else
-        object_sof_node(object , level , ref )
+        object_to_sof_node(object , level , ref)
       end
+
     end
 
     # create an object node from the object
     # simple nodes are returned for small objects
     #   small means only simple attributes and only 30 chars of them
     # object nodes are basically arrays (see there)
-    def object_sof_node( object , level , ref)
+    def object_to_sof_node( object , level , ref)
       node = ObjectNode.new(object.class.name , ref)
       attributes_for(object).each() do |a|
         val = get_value(object , a)
@@ -74,5 +82,28 @@ module Sof
       end
       node
     end
+
+    # Creates a ArrayNode (see there) for the Array.
+    # This mainly involves creating nodes for the children
+    def array_to_sof_node(array , level , ref )
+      node = Sof::ArrayNode.new(ref)
+      array.each do |object|
+        node.add to_sof_node( object , level + 1)
+      end
+      node
+    end
+
+    # Creates a HashNode (see there) for the Hash.
+    # This mainly involves creating nodes for key value pairs
+    def hash_to_sof_node(hash , level , ref)
+      node = Sof::HashNode.new(ref)
+      hash.each do |key , object|
+        k = to_sof_node( key ,level + 1)
+        v = to_sof_node( object ,level + 1)
+        node.add(k , v)
+      end
+      node
+    end
+
   end
 end

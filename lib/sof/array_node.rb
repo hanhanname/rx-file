@@ -1,21 +1,6 @@
-# If a class defines to_sof_node it tells the write that it will generate Nodes itself
-# this delegates to array_to_sof_node
-Array.class_eval do
-  def to_sof_node(writer , level , ref )
-    Sof.array_to_sof_node(self , writer , level , ref )
-  end
-end
+
 
 module Sof
-  # Creates a ArrayNode (see there) for the Array.
-  # This mainly involves creating nodes for the children
-  def self.array_to_sof_node(array , writer , level , ref )
-    node = Sof::ArrayNode.new(ref)
-    array.each do |object|
-      node.add writer.to_sof_node( object , level + 1)
-    end
-    node
-  end
 
   # A ArrayNode is a Node for an Array. See Node for when and how nodes are used in Sof.
   # A ArrayNode has a list of children that hold the value node representations for
