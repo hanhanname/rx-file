@@ -16,74 +16,87 @@ module Sof
       @root = root
       @counter = 1
       @objects = {}
-      add(root , 0)
+      add_object( root , 0)
+      collect_level(0 , [root])
     end
     attr_reader :objects , :root
 
     private
-    # recursively add reachable objects from this object
-    # this is called from the initialize and is private
-    def add object , level
-      # not storing simple (value) objects
-      return if is_value?(object)
-
+    # add object (as occurence) if it doesn't exist
+    # return object or nil
+    def add_object object , level
       # see if we we came accross this before
       if( occurence = @objects[object.object_id] )
-        puts "reset level #{level} at #{occurence.level}" if occurence.referenced == 19
+        #puts "reset level #{level} at #{occurence.level}" if occurence.referenced #== 19
         if occurence.level > level
           #always store the most shallow level
           occurence.level = level
         end
         # and only one Occurence for each object, create a reference for the second occurence
         unless occurence.referenced
-          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 14
-          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 19
+          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 23
+#          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 19
           occurence.set_reference(@counter)
           @counter = @counter + 1
         end
-        return
+        return nil
       end
-
       # if first time see, create and store Occurence
-      o = Occurence.new( object , level )
-      @objects[object.object_id] = o
+      @objects[object.object_id] =  Occurence.new( object , level )
+      return object
+    end
 
-      case object.class.name
-      when "Array" , "Parfait::List"
-        add_array object , level
-      when "Hash" , "Parfait::Dictionary"
-        add_hash object , level
-      else
-        # and recursively add attributes
-        attributes = attributes_for(object)
-        attributes.each do |a|
-          val = get_value( object , a)
-          add(val , level + 1)
-        end
-        #TODO get all superclsses here, but this covers 99% so . . moving on
-        superclasses = [object.class.superclass.name]
-        if superclasses.include?( "Array") or superclasses.include?( "List")
-          add_array object , level
-        end
-        if superclasses.include?( "Hash") or superclasses.include?( "Dictionary")
-          add_hash object , level
+    # recursively find reachable objects from this level of objects
+    # this is called from the initialize and is private
+    # we go through the tree in breadth first (which is a little more effort) to catch lowest
+    # references.
+    def collect_level level , objects
+      next_level = Array.new
+      #puts "collect level #{level} #{objects.length}"
+      objects.each do |object|
+        #puts "collect level #{level} #{object.object_id}"
+        # not storing simple (value) objects
+        next if is_value?(object)
+        case object.class.name
+        when "Array" , "Parfait::List"
+          collect_array object , next_level
+        when "Hash" , "Parfait::Dictionary"
+          collect_hash object, next_level
+        else
+          # and recursively add attributes
+          attributes = attributes_for(object)
+          attributes.each do |a|
+            val = get_value( object , a)
+            next_level << val
+          end
+          #TODO get all superclsses here, but this covers 99% so . . moving on
+          superclasses = [object.class.superclass.name]
+          if superclasses.include?( "Array") or superclasses.include?( "List")
+            collect_array object, next_level
+          end
+          if superclasses.include?( "Hash") or superclasses.include?( "Dictionary")
+            collect_hash object, next_level
+          end
         end
       end
+      new_objects = next_level.collect { |o| add_object(o , level + 1) }
+      new_objects.compact!
+      # recurse , but break off if hit bottom
+      collect_level( level + 1 , new_objects) unless new_objects.empty?
     end
+
     # and hash keys/values
-    def add_hash hash ,level
+    def collect_hash hash , next_level
       hash.each do |a,b|
-        add(a , level + 1)
-        add(b , level + 1)
+        next_level << a
+        next_level << b
       end
     end
     # and array values
-    def add_array array , level
+    def collect_array array , next_level
       array.each do |a|
-        add(a , level + 1)
+        next_level << a
       end
     end
   end
-  # TODO, since this class only has one function, and one instance
-  #  it could be merged as class functions to Occurence
 end

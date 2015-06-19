@@ -36,7 +36,7 @@ class TestRefs < MiniTest::Test
     object2 = ObjectWithAttributes.new
     object.extra = [object2]
     @out = [ {:one => object} , object2 ]
-    check "- - :one => ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => [->1])\n- &1 ObjectWithAttributes(:name => 'some name', :number => 1234)"
+    check "- - :one => ObjectWithAttributes(:name => 'some name', :number => 1234, :extra => [->2])\n- &2 ObjectWithAttributes(:name => 'some name', :number => 1234)"
   end
 
 end

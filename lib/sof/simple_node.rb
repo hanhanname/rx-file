@@ -9,8 +9,8 @@ module Sof
   class SimpleNode < Node
 
     # data is a string that is written out in "out" function
-    def initialize data , ref = nil
-      super(ref)
+    def initialize data
+      super(nil) # simple nodes can not be referenced, always value
       @data = data
     end
 
