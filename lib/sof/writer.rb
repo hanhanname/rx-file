@@ -85,10 +85,10 @@ module Sof
       end
       #TODO get all superclsses here, but this covers 99% so . . moving on
       superclasses = [object.class.superclass.name]
-      if superclasses.include?( "Array") or superclasses.include?( "List")
+      if superclasses.include?( "Array") or superclasses.include?( "Parfait::List")
         node.add_super( array_to_sof_node(object , level , ref ) )
       end
-      if superclasses.include?( "Hash") or superclasses.include?( "Dictionary")
+      if superclasses.include?( "Hash") or superclasses.include?( "Parfait::Dictionary")
         node.add_super( hash_to_sof_node(object , level , ref ) )
       end
       node
