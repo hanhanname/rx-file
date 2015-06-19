@@ -25,7 +25,6 @@ module Sof
       short
     end
 
-    private
     # This defines the short output which is basically what you would write in ruby
     # ie [ value1 , value2 , ...]
     # The short is used for 7 or less SimpleNodes

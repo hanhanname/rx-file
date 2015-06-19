@@ -45,7 +45,7 @@ module Sof
       raise "no object #{object}" unless occurence
       #puts "#{level} ? #{occurence.level} : ref #{occurence.referenced}"
       if( occurence.referenced )
-        puts "ref #{occurence.referenced} level #{level} at #{occurence.level}"
+        #puts "ref #{occurence.referenced} level #{level} at #{occurence.level}"
         return SimpleNode.new("->#{occurence.referenced}") unless (level == occurence.level )
         if( occurence.written.nil? )
           occurence.written = true
@@ -73,12 +73,23 @@ module Sof
     # simple nodes are returned for small objects
     #   small means only simple attributes and only 30 chars of them
     # object nodes are basically arrays (see there)
+    #
+    # objects may be derived from array/hash. In that case the ObjectNode gets a super
+    #  (either ArrayNode or HashNode)
     def object_to_sof_node( object , level , ref)
       node = ObjectNode.new(object.class.name , ref)
       attributes_for(object).each() do |a|
         val = get_value(object , a)
         next if val.nil?
         node.add( a , to_sof_node( val , level + 1) )
+      end
+      #TODO get all superclsses here, but this covers 99% so . . moving on
+      superclasses = [object.class.superclass.name]
+      if superclasses.include?( "Array") or superclasses.include?( "List")
+        node.add_super( array_to_sof_node(object , level , ref ) )
+      end
+      if superclasses.include?( "Hash") or superclasses.include?( "Dictionary")
+        node.add_super( hash_to_sof_node(object , level , ref ) )
       end
       node
     end

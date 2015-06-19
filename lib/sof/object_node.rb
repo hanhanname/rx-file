@@ -13,8 +13,13 @@ module Sof
       @name = name
       @simple = {}
       @complex = {}
+      @super = nil  # if derived from array or hash
     end
 
+    # super is a hash or array, if the class of object derives from Hash/Array
+    def add_super s
+      @super = s
+    end
     # attributes hold key value pairs
     def add k , v
       raise "Key should be symbol not #{k}" unless k.is_a? Symbol
@@ -25,8 +30,15 @@ module Sof
       end
     end
 
+    # simple when no complex attributes and any
+    # possible super is also simple
     def is_simple?
-      true if( @referenced.nil? and @complex.empty? and head.length < 30 )
+      if( @referenced.nil? and @complex.empty? and head.length < 30 )
+        unless(@super and !@super.is_simple?)
+          return true
+        end
+      end
+      false
     end
 
     # write out at the given level
@@ -41,10 +53,21 @@ module Sof
         io.write " "
         v.out(io , level + 1)
       end
+      if(@super)
+        io.write " "
+        @super.long_out(io,level)
+      end
     end
 
     def short_out io , level
       io.write head
+      if(@super)
+        if( @super.is_simple? )
+          @super.short_out(io,level)
+        else
+          @super.long_out(io,level)
+        end
+      end
     end
 
     def head

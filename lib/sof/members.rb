@@ -50,16 +50,9 @@ module Sof
 
       case object.class.name
       when "Array" , "Parfait::List"
-        # and array values
-        object.each do |a|
-          add(a , level + 1)
-        end
+        add_array object , level
       when "Hash" , "Parfait::Dictionary"
-        # and hash keys/values
-        object.each do |a,b|
-          add(a , level + 1)
-          add(b , level + 1)
-        end
+        add_hash object , level
       else
         # and recursively add attributes
         attributes = attributes_for(object)
@@ -67,6 +60,27 @@ module Sof
           val = get_value( object , a)
           add(val , level + 1)
         end
+        #TODO get all superclsses here, but this covers 99% so . . moving on
+        superclasses = [object.class.superclass.name]
+        if superclasses.include?( "Array") or superclasses.include?( "List")
+          add_array object , level
+        end
+        if superclasses.include?( "Hash") or superclasses.include?( "Dictionary")
+          add_hash object , level
+        end
+      end
+    end
+    # and hash keys/values
+    def add_hash hash ,level
+      hash.each do |a,b|
+        add(a , level + 1)
+        add(b , level + 1)
+      end
+    end
+    # and array values
+    def add_array array , level
+      array.each do |a|
+        add(a , level + 1)
       end
     end
   end

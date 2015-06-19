@@ -22,7 +22,6 @@ module Sof
       true
     end
 
-    private
     # This defines the short output which is basically what you would write in ruby
     # ie { key1 => value1 , ... }
     # The short is used for 7 or less SimpleNodes
