@@ -41,7 +41,7 @@ module Sof
             reference = object.sof_reference_name
             reference = reference.to_s.gsub(/\s|\W/ , "") #remove space and stuff
             if( @references.include?(reference) or reference.empty?)
-              reference = "#{reference}#{@counter}"
+              reference = "#{reference}-#{@counter}"
               @counter = @counter + 1
             end
           else
