@@ -39,7 +39,7 @@ module Sof
 #          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 19
           if object.respond_to? :sof_reference_name
             reference = object.sof_reference_name
-            reference = reference.to_s.gsub(/\d|\s|\W/ , "") #remove non alpha chars
+            reference = reference.to_s.gsub(/\s|\W/ , "") #remove space and stuff
             if( @references.include?(reference) or reference.empty?)
               reference = "#{reference}#{@counter}"
               @counter = @counter + 1
