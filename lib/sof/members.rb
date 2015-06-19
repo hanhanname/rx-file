@@ -15,6 +15,7 @@ module Sof
     def initialize root
       @root = root
       @counter = 1
+      @references = []
       @objects = {}
       add_object( root , 0)
       collect_level(0 , [root])
@@ -34,10 +35,21 @@ module Sof
         end
         # and only one Occurence for each object, create a reference for the second occurence
         unless occurence.referenced
-          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 23
+#          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 23
 #          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 19
-          occurence.set_reference(@counter)
-          @counter = @counter + 1
+          if object.respond_to? :sof_reference_name
+            reference = object.sof_reference_name
+            reference = reference.to_s.gsub(/\d|\s|\W/ , "") #remove non alpha chars
+            if( @references.include?(reference) or reference.empty?)
+              reference = "#{reference}#{@counter}"
+              @counter = @counter + 1
+            end
+          else
+            reference = @counter.to_s
+            @counter = @counter + 1
+          end
+          occurence.set_reference(reference)
+          @references << reference
         end
         return nil
       end
