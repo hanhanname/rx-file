@@ -2,7 +2,7 @@ language: ruby
 sudo: false
 cache: bundler
 script:
-  - ruby test/test_all.rb
+  - CODECLIMATE_REPO_TOKEN=40ed7f464af09c892b27adc2cd171c36b24992d8d527428285bc55c46fe2f0e0 ruby test/test_all.rb
 rvm:
   - 1.9.3
   - 2.0.0

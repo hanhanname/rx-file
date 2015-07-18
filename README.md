@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/salama/salama-object-file.svg?branch=master)](https://travis-ci.org/salama/salama-object-file)
+[![Gem Version](https://badge.fury.io/rb/salama-object-file.svg)](http://badge.fury.io/rb/salama-object-file)
+[![Code Climate](https://codeclimate.com/github/salama/salama-object-file/badges/gpa.svg)](https://codeclimate.com/github/salama/salama-object-file)
+[![Test Coverage](https://codeclimate.com/github/salama/salama-object-file/badges/coverage.svg)](https://codeclimate.com/github/salama/salama-object-file)
+
 ### Reading the code
 
 Knowing what's going on while coding salama is not so easy: Hence the need to look at code dumps
