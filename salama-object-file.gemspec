@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = 'salama-object-file'
-  s.version = '0.2.0'
+  s.version = '0.3.0'
 
   s.authors = ['Torsten Ruger']
   s.email = 'torsten@villataika.fi'
