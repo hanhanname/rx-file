@@ -1,3 +1,2 @@
 
-require 'rubygems/tasks'
-Gem::Tasks.new
+require "bundler/gem_tasks"
