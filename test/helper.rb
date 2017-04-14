@@ -7,13 +7,9 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
-if ENV['CODECLIMATE_REPO_TOKEN']
-  require "codeclimate-test-reporter"
-  CodeClimate::TestReporter.start
-end
 
 require "minitest/autorun"
-require 'salama-object-file'
+require 'rubyx-object-file'
 
 module Checker
   def check should

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    salama-object-file (0.3.0)
+    rubyx-object-file (0.3.0)
 
 GEM
   remote: http://rubygems.org/
@@ -25,7 +25,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   minitest
   rake
-  salama-object-file!
+  rubyx-object-file!
 
 BUNDLED WITH
-   1.10.6
+   1.14.6
