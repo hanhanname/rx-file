@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gem "rake"
 
-gem "rubyx-object-file" , :path => "."
+gem "rx-file" , :path => "."
 
 gem "codeclimate-test-reporter", require: nil
 

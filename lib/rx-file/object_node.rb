@@ -1,5 +1,5 @@
 
-module Sof
+module RxFile
 
   # ObjectNode means node with structure
   # ie arrays and hashes get transformed into these too, as well as objects with attributes

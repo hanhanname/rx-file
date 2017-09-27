@@ -1,4 +1,4 @@
-module Sof
+module RxFile
 
   # module for a couple of helpers that are needed in Members and Writer
 
@@ -24,7 +24,7 @@ module Sof
     # attributes may be supressed with Volotile
     # TODO should be able to specify order too
     def attributes_for object
-      Sof::Util.attributes(object)
+      RxFile::Util.attributes(object)
     end
 
     # return a list of attributes for a given object

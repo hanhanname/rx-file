@@ -1,6 +1,6 @@
-module Sof
+module RxFile
 
-  # this function writes the object (and all reachable objects) out as sof
+  # this function writes the object (and all reachable objects) out as rxf
   # and returns a string
   # For trees or graphs this works best by handing roots
   # Internally this is done in three steps:
@@ -23,9 +23,9 @@ module Sof
     end
 
     # main function, creates nodes from the occurences and writes the nodes to a string
-    # returns the sof formatted string for all objects
+    # returns the rxf formatted string for all objects
     def write
-      node = to_sof_node(@members.root , 0)
+      node = to_rxf_node(@members.root , 0)
       io = StringIO.new
       node.out( io , 0 )
       io.string
@@ -36,10 +36,10 @@ module Sof
     # from the object we get the Occurence and decide wether a reference node is needed
     # simple objects (with more inner structure) become SimpleNodes
     # Any structured object becomes a ObjectNode
-    # Hash and Array create their own nodes via  to_sof_node functions on the classes
-    def to_sof_node(object , level)
+    # Hash and Array create their own nodes via  to_rxf_node functions on the classes
+    def to_rxf_node(object , level)
       if is_value?(object)
-        return SimpleNode.new(object.to_sof())
+        return SimpleNode.new(object.to_rxf())
       end
       occurence = @members.objects[object.object_id]
       raise "no object #{object}" unless occurence
@@ -57,14 +57,14 @@ module Sof
       ref = occurence.referenced
       case object.class.name
       when "Array" , "Parfait::List"
-        # If a class defines to_sof_node it tells the write that it will generate Nodes itself
-        # this delegates to array_to_sof_node
-        array_to_sof_node(object , level , ref )
+        # If a class defines to_rxf_node it tells the write that it will generate Nodes itself
+        # this delegates to array_to_rxf_node
+        array_to_rxf_node(object , level , ref )
       when "Hash" , "Parfait::Dictionary"
         # and hash keys/values
-        hash_to_sof_node( object , level , ref)
+        hash_to_rxf_node( object , level , ref)
       else
-        object_to_sof_node(object , level , ref)
+        object_to_rxf_node(object , level , ref)
       end
 
     end
@@ -76,41 +76,41 @@ module Sof
     #
     # objects may be derived from array/hash. In that case the ObjectNode gets a super
     #  (either ArrayNode or HashNode)
-    def object_to_sof_node( object , level , ref)
+    def object_to_rxf_node( object , level , ref)
       node = ObjectNode.new(object.class.name , ref)
       attributes_for(object).each() do |a|
         val = get_value(object , a)
         next if val.nil?
-        node.add( a , to_sof_node( val , level + 1) )
+        node.add( a , to_rxf_node( val , level + 1) )
       end
       #TODO get all superclsses here, but this covers 99% so . . moving on
       superclasses = [object.class.superclass.name]
       if superclasses.include?( "Array") or superclasses.include?( "Parfait::List")
-        node.add_super( array_to_sof_node(object , level , ref ) )
+        node.add_super( array_to_rxf_node(object , level , ref ) )
       end
       if superclasses.include?( "Hash") or superclasses.include?( "Parfait::Dictionary")
-        node.add_super( hash_to_sof_node(object , level , ref ) )
+        node.add_super( hash_to_rxf_node(object , level , ref ) )
       end
       node
     end
 
     # Creates a ArrayNode (see there) for the Array.
     # This mainly involves creating nodes for the children
-    def array_to_sof_node(array , level , ref )
-      node = Sof::ArrayNode.new(ref)
+    def array_to_rxf_node(array , level , ref )
+      node = RxFile::ArrayNode.new(ref)
       array.each do |object|
-        node.add to_sof_node( object , level + 1)
+        node.add to_rxf_node( object , level + 1)
       end
       node
     end
 
     # Creates a HashNode (see there) for the Hash.
     # This mainly involves creating nodes for key value pairs
-    def hash_to_sof_node(hash , level , ref)
-      node = Sof::HashNode.new(ref)
+    def hash_to_rxf_node(hash , level , ref)
+      node = RxFile::HashNode.new(ref)
       hash.each do |key , object|
-        k = to_sof_node( key ,level + 1)
-        v = to_sof_node( object ,level + 1)
+        k = to_rxf_node( key ,level + 1)
+        v = to_rxf_node( object ,level + 1)
         node.add(k , v)
       end
       node

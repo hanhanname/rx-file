@@ -1,6 +1,6 @@
 # We transform objects into a tree of nodes
 
-module Sof
+module RxFile
 
   # Before writing the objects are transformed into a tree of nodes.
   # as the Members (all objects) are a graph (not tree) this is achieved by referencing

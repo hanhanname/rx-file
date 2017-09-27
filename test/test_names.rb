@@ -4,7 +4,7 @@ class NamedRef < ObjectWithAttributes
     super()
     @name = name
   end
-  def sof_reference_name
+  def rxf_reference_name
     @name.to_s
   end
 end

@@ -1,4 +1,4 @@
-module Sof
+module RxFile
 
   # Members are members of the graph to be written
   # The class collects all reachable objects into a hash for further transformation
@@ -37,8 +37,8 @@ module Sof
         unless occurence.referenced
 #          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 23
 #          puts "referencing #{@counter} #{occurence.object.name}, at level #{level}/#{occurence.level} " if @counter == 19
-          if object.respond_to? :sof_reference_name
-            reference = object.sof_reference_name
+          if object.respond_to? :rxf_reference_name
+            reference = object.rxf_reference_name
             reference = reference.to_s.gsub(/\s|\W/ , "") #remove space and stuff
             if( @references.include?(reference) or reference.empty?)
               reference = "#{reference}-#{@counter}"

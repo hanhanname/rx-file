@@ -1,4 +1,4 @@
-module Sof
+module RxFile
 
   # What makes a node simple is that it has no further structure
   #

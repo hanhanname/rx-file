@@ -1,8 +1,8 @@
 
 
-module Sof
+module RxFile
 
-  # A ArrayNode is a Node for an Array. See Node for when and how nodes are used in Sof.
+  # A ArrayNode is a Node for an Array. See Node for when and how nodes are used in RxFile.
   # A ArrayNode has a list of children that hold the value node representations for
   # the arrays values.
   #

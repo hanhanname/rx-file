@@ -13,7 +13,7 @@ require 'rubyx-object-file'
 
 module Checker
   def check should
-    out = Sof.write(@out)
+    out = RxFile.write(@out)
     same = (should == out)
     puts "Shouldda\n#{out}" unless same
     assert_equal should , out
@@ -28,4 +28,4 @@ class ObjectWithAttributes
   attr_accessor :extra , :volotile
 end
 OBJECT_STRING = "ObjectWithAttributes(:name => 'some name', :number => 1234)"
-Sof::Volotile.add(ObjectWithAttributes , [:volotile])
+RxFile::Volotile.add(ObjectWithAttributes , [:volotile])

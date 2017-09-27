@@ -1,6 +1,6 @@
 require_relative "helper"
 
-class ObjectSof < MiniTest::Test
+class ObjectRxFile < MiniTest::Test
   include Checker
 
   def test_simple_object

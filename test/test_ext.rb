@@ -9,17 +9,17 @@ class FailValue
   end
 end
 class BasicValue < FailValue
-  def to_sof
+  def to_rxf
     "'#{@name}'"
   end
 end
 
-class ObjectSof < MiniTest::Test
+class ObjectRxFile < MiniTest::Test
   include Checker
 
-  def test_to_sof
+  def test_to_rxf
     assert_raises NoMethodError do
-      Sof::Writer.write(FailValue.new("name"))
+      RxFile::Writer.write(FailValue.new("name"))
     end
   end
 

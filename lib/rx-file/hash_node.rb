@@ -1,5 +1,5 @@
-module Sof
-  # A HashNode is a Node for a Hash. See Node for when and how nodes are used in Sof.
+module RxFile
+  # A HashNode is a Node for a Hash. See Node for when and how nodes are used in RxFile.
   # A HashNode has a list of children that hold the key/value node representations for
   # the hashes keys and values.
 

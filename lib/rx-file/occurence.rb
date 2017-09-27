@@ -1,4 +1,4 @@
-module Sof
+module RxFile
 
   # simple struct like class to wrap an object and hold additionally
   #  - the shallowest level at which it was seen

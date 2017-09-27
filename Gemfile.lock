@@ -1,22 +1,22 @@
 PATH
   remote: .
   specs:
-    rubyx-object-file (0.3.0)
+    rx-file (0.3.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    codeclimate-test-reporter (0.4.8)
-      simplecov (>= 0.7.1, < 1.0.0)
+    codeclimate-test-reporter (1.0.8)
+      simplecov (<= 0.13)
     docile (1.1.5)
-    json (1.8.3)
-    minitest (5.8.1)
-    rake (10.4.2)
-    simplecov (0.10.0)
+    json (2.1.0)
+    minitest (5.10.3)
+    rake (12.1.0)
+    simplecov (0.13.0)
       docile (~> 1.1.0)
-      json (~> 1.8)
+      json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.0)
+    simplecov-html (0.10.2)
 
 PLATFORMS
   ruby
@@ -25,7 +25,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   minitest
   rake
-  rubyx-object-file!
+  rx-file!
 
 BUNDLED WITH
-   1.14.6
+   1.15.4
