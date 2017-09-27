@@ -13,7 +13,7 @@ require 'rx-file'
 
 module Checker
   def check should
-    out = RxFile.write(@out)
+    out = @out.to_rxf
     same = (should == out)
     puts "Shouldda\n#{out}" unless same
     assert_equal should , out

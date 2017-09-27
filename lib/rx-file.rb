@@ -13,6 +13,11 @@ require_relative "rx-file/array_node"
 require_relative "rx-file/hash_node"
 require_relative "rx-file/occurence"
 
+Object.class_eval do
+  def to_rxf
+    RxFile.write(self)
+  end
+end
 Class.class_eval do
   def to_rxf
     self.name
