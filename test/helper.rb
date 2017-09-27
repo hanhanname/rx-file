@@ -9,7 +9,7 @@ rescue Bundler::BundlerError => e
 end
 
 require "minitest/autorun"
-require 'rubyx-object-file'
+require 'rx-file'
 
 module Checker
   def check should
