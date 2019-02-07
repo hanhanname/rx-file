@@ -48,7 +48,7 @@ String.class_eval do
     "'" + self + "'"
   end
 end
-Fixnum.class_eval do
+Integer.class_eval do
   def to_rxf()
     to_s
   end
