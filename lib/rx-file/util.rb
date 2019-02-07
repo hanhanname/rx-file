@@ -7,7 +7,7 @@ module RxFile
     # hence int/bool/string etc are values
     def is_value? o
       return true if [true , false ,  nil].include?(o)
-      return true if [Fixnum, Symbol, String, Class].include?(o.class)
+      return true if [::Integer, Symbol, String, Class].include?(o.class)
       if o.respond_to? :is_value?
         return true if o.is_value?
       end
